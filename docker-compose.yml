@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+    ports:
+      - "7790:80"
+    container_name: laravel.amd-nginx
+    depends_on:
+      - app
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    volumes:
+      - ./:/var/www
+    container_name: laravel.amd-app
