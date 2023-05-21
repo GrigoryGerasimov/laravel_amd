@@ -1,20 +1,37 @@
 version: "3"
 
 services:
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./:/var/www
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
-    ports:
-      - "7790:80"
-    container_name: laravel.amd-nginx
-    depends_on:
-      - app
-  app:
-    build:
-      context: .
-      dockerfile: docker/app/Dockerfile
-    volumes:
-      - ./:/var/www
-    container_name: laravel.amd-app
+    nginx:
+        image: nginx:latest
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+        ports:
+            - "7790:80"
+        container_name: laravel.amd-nginx
+        depends_on:
+            - app
+    app:
+        build:
+            context: .
+            dockerfile: docker/app/Dockerfile
+        volumes:
+            - ./:/var/www
+        container_name: laravel.amd-app
+        depends_on:
+            - db
+    db:
+        image: postgres:latest
+        volumes:
+            - ./temp/db:/var/lib/postgresql/data
+        restart: always
+        ports:
+            - "5400:5432"
+        environment:
+            POSTGRES_USER: pgadmin
+            POSTGRES_PASSWORD: pgadmin
+            POSTGRES_DB: amd
+            PGDATA: /var/lib/postgresql/data
+        container_name: laravel.amd-db
+
+
