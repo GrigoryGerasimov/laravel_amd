@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    {{ Auth::user()->roles->keyBy('id') }}
+                    {{ Auth::user()->roles }}
                     {{ __('You are logged in!') }}
                 </div>
             </div>
