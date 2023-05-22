@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Facades\Log;
 use App\Models\{Role, User};
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\{Log, DB};
 
 final class AssignRoleToUserCommand extends Command
 {
@@ -15,6 +15,8 @@ final class AssignRoleToUserCommand extends Command
     public function handle(): void
     {
         try {
+            DB::beginTransaction();
+
             $slug = $this->argument('role');
             $userId = $this->argument('user_id');
 
@@ -24,7 +26,11 @@ final class AssignRoleToUserCommand extends Command
             $user->roles()->attach($role);
 
             $this->info("Role $slug successfully assigned to user $userId");
+
+            DB::commit();
         } catch (\Exception $e) {
+            DB::rollback();
+
             Log::error($e->getMessage());
         }
     }
