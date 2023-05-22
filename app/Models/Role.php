@@ -27,4 +27,9 @@ final class Role extends Model
     {
         return $this->belongsToMany(User::class, 'user_roles', 'role_id', 'user_id');
     }
+
+    public function hasPermission(string $permission): bool
+    {
+        return $this->permissions[$permission] ?? false;
+    }
 }
