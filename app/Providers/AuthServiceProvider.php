@@ -16,7 +16,7 @@ final class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('amd-creator');
         });
 
-        Gate::define('approve', function(User $user) {
+        Gate::define('manage', function(User $user) {
             return $user->hasRole('amd-manager');
         });
     }
