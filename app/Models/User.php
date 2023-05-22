@@ -35,13 +35,10 @@ final class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
     }
 
-    public function hasAccess(): bool
+    public function hasRole(string $slug): bool
     {
+        $roleCollection = $this->roles()->where('slug', $slug)->first();
 
-    }
-
-    public function hasRole(): bool
-    {
-
+        return !empty($roleCollection) && $roleCollection->count() !== 0;
     }
 }
