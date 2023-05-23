@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Article\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ArticleRequest;
+use App\Http\Services\ArticleService;
+use Illuminate\Http\RedirectResponse;
 
 final class StoreController extends Controller
 {
-    public function __invoke()
+    public function __invoke(ArticleRequest $request): RedirectResponse
     {
+        ArticleService::store($request->validated());
 
+        return redirect(route('amd.index'), 201);
     }
 }
