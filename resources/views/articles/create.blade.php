@@ -6,8 +6,23 @@
         <form action='{{ route('amd.store') }}' method='POST' enctype='application/x-www-form-urlencoded'>
             @csrf
             <div class='form-group mt-3'>
+                <label for='season_id'>Season</label>
+                <select id='season_id' name='season_id' class='form-select @error('season_id') is-invalid @enderror'>
+                    @foreach($seasonsList as $season)
+                        <option
+                            value='{{ $season->id }}' @selected(old('season_id' == $season->id))>{{ $season->name }}</option>
+                    @endforeach
+                </select>
+                @error('season_id')
+                <span class='text-danger'>{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class='form-group mt-3'>
                 <label for='buying_article_sku'>Buying Article SKU</label>
-                <input id='buying_article_sku' name='buying_article_sku' class='form-control' value='{{ old('buying_article_sku') }}'/>
+                <input id='buying_article_sku' name='buying_article_sku'
+                       class='form-control @error('buying_article_sku') is-invalid @enderror'
+                       value='{{ old('buying_article_sku') }}'/>
                 @error('buying_article_sku')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
@@ -15,23 +30,42 @@
 
             <div class='form-group mt-3'>
                 <label for='buying_article_config'>Buying Article Config</label>
-                <input id='buying_article_config' name='buying_article_config' class='form-control' value='{{ old('buying_article_config') }}'/>
+                <input id='buying_article_config' name='buying_article_config'
+                       class='form-control @error('buying_article_config') is-invalid @enderror'
+                       value='{{ old('buying_article_config') }}'/>
                 @error('buying_article_config')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
             </div>
 
             <div class='form-group mt-3'>
-                <label for='brand_name'>Brand Name</label>
-                <input id='brand_name' name='brand_name' class='form-control' value='{{ old('brand_name') }}'/>
-                @error('brand_name')
+                <label for='brand_id'>Brand</label>
+                <select id='brand_id' name='brand_id' class='form-select @error('brand_id') is-invalid @enderror'>
+                    @foreach($brandsList as $brand)
+                        <option
+                            value='{{ $brand->id }}' @selected(old('brand_id') == $brand->id)>{{ $brand->name }}</option>
+                    @endforeach
+                </select>
+                @error('brand_id')
+                <span class='text-danger'>{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class='form-group mt-3'>
+                <label for='supplier_article_form'>Supplier Article Form</label>
+                <input id='supplier_article_form' name='supplier_article_form'
+                       class='form-control @error('supplier_article_form') is-invalid @enderror'
+                       value='{{ old('supplier_article_form') }}'/>
+                @error('supplier_article_form')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
             </div>
 
             <div class='form-group mt-3'>
                 <label for='supplier_article_number'>Supplier Article Number</label>
-                <input id='supplier_article_number' name='supplier_article_number' class='form-control' value='{{ old('supplier_article_number') }}'/>
+                <input id='supplier_article_number' name='supplier_article_number'
+                       class='form-control @error('supplier_article_number') is-invalid @enderror'
+                       value='{{ old('supplier_article_number') }}'/>
                 @error('supplier_article_number')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
@@ -39,63 +73,78 @@
 
             <div class='form-group mt-3'>
                 <label for='supplier_article_name'>Supplier Article Name</label>
-                <input id='supplier_article_name' name='supplier_article_name' class='form-control' value='{{ old('supplier_article_name') }}'/>
+                <input id='supplier_article_name' name='supplier_article_name'
+                       class='form-control @error('supplier_article_name') is-invalid @enderror'
+                       value='{{ old('supplier_article_name') }}'/>
                 @error('supplier_article_name')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
             </div>
 
             <div class='form-group mt-3'>
-                <label for='supplier_color_code'>Supplier Color Code</label>
-                <input id='supplier_color_code' name='supplier_color_code' class='form-control' value='{{ old('supplier_color_code') }}'/>
-                @error('supplier_color_code')
+                <label for='color_id'>Supplier Article Color</label>
+                <select id='color_id' name='color_id' class='form-select @error('color_id') is-invalid @enderror'>
+                    @foreach($colorsList as $color)
+                        <option
+                            value='{{ $color->id }}' @selected(old('color_id') == $color->id)>{{ $color->name }}</option>
+                    @endforeach
+                </select>
+                @error('color_id')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
             </div>
 
             <div class='form-group mt-3'>
-                <label for='supplier_color_name'>Supplier Color Name</label>
-                <input id='supplier_color_name' name='supplier_color_name' class='form-control' value='{{ old('supplier_color_name') }}'/>
-                @error('supplier_color_name')
+                <label for='size_id'>Supplier Article Size</label>
+                <select id='size_id' name='size_id' class='form-select @error('size_id') is-invalid @enderror'>
+                    @foreach($sizesList as $size)
+                        <option
+                            value='{{ $size->id }}' @selected(old('size_id') == $size->id)>{{ $size->code }}</option>
+                    @endforeach
+                </select>
+                @error('size_id')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
             </div>
 
             <div class='form-group mt-3'>
-                <label for='supplier_size'>Supplier Size</label>
-                <input id='supplier_size' name='supplier_size' class='form-control' value='{{ old('supplier_size') }}'/>
-                @error('supplier_size')
+                <label for='ean_gtin'>EAN/GTIN</label>
+                <input id='ean_gtin' name='ean_gtin' class='form-control @error('ean_gtin') is-invalid @enderror'
+                       value='{{ old('ean_gtin') }}'/>
+                @error('ean_gtin')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
             </div>
 
             <div class='form-group mt-3'>
-                <label for='EAN/GTIN'>EAN/GTIN</label>
-                <input id='EAN/GTIN' name='EAN/GTIN' class='form-control' value='{{ old('EAN/GTIN') }}'/>
-                @error('EAN/GTIN')
+                <label for='country_id'>Country of Origin</label>
+                <select id='country_id' name='country_id' class='form-select @error('country_id') is-invalid @enderror'>
+                    @foreach($countriesList as $country)
+                        <option
+                            value='{{ $country->id }}' @selected(old('country_id') == $country->id)>{{ $country->name }}</option>
+                    @endforeach
+                </select>
+                @error('country_id')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
             </div>
 
             <div class='form-group mt-3'>
-                <label for='country_of_origin'>Country of Origin</label>
-                <input id='country_of_origin' name='country_of_origin' class='form-control' value='{{ old('country_of_origin') }}'/>
-                @error('country_of_origin')
-                <span class='text-danger'>{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class='form-group mt-3'>
-                <label for='textile_outer_material'>Textile Outer Material</label>
-                <input id='textile_outer_material' name='textile_outer_material' class='form-control' value='{{ old('textile_outer_material') }}'/>
-                @error('textile_outer_material')
+                <label for='hs_code'>HS Code</label>
+                <input id='hs_code' name='hs_code' class='form-control @error('hs_code') is-invalid @enderror'
+                       value='{{ old('hs_code') }}'/>
+                @error('hs_code')
                 <span class='text-danger'>{{ $message }}</span>
                 @enderror
             </div>
 
             <input type='hidden' id='user_id' name='user_id' value='{{ Auth::user()->id }}'/>
 
-            <button class='btn btn-success mt-3'>Submit</button>
+            <div class='btn-group col-12 mt-5'>
+                <a class='btn btn-outline-secondary' href='{{ route('amd.index') }}'>Back</a>
+                <button type='reset' class='btn btn-outline-primary'>Reset</button>
+                <button type='submit' class='btn btn-outline-success'>Submit</button>
+            </div>
         </form>
     </section>
 @endsection

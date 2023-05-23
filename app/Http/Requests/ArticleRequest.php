@@ -15,18 +15,19 @@ final class ArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'buying_article_sku' => 'required|string|min:4|max:25',
-            'buying_article_config' => 'required|string|min:4|max:25',
-            'brand_name' => 'required|string',
-            'supplier_article_number' => 'required|integer',
+            'season_id' => 'required|integer',
+            'buying_article_sku' => 'required|string|min:4|max:13|unique:articles',
+            'buying_article_config' => 'required|string|min:4|max:13',
+            'brand_id' => 'required|integer',
+            'supplier_article_form' => 'required|string',
+            'supplier_article_number' => 'required|string',
             'supplier_article_name' => 'required|string',
-            'supplier_color_code' => 'required|integer',
-            'supplier_color_name' => 'required|string',
-            'supplier_size' => 'required|string|max:5',
-            'EAN/GTIN' => 'required|string|max:13',
-            'country_of_origin' => 'required|string',
-            'textile_outer_material' => 'required|string',
-            'user_id' => 'required'
+            'color_id' => 'required|integer',
+            'size_id' => 'required|integer',
+            'ean_gtin' => 'required|string|max:13|unique:articles',
+            'country_id' => 'required|integer',
+            'hs_code' => 'required|string|min:4|max:13',
+            'user_id' => 'required|integer'
         ];
     }
 }
