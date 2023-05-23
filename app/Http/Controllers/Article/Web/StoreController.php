@@ -13,7 +13,12 @@ final class StoreController extends Controller
 {
     public function __invoke(ArticleRequest $request): RedirectResponse
     {
-        ArticleService::store($request->validated());
+        $newArticle = ArticleService::store($request->validated());
+
+        if (!$newArticle) {
+            session()->flash('error_msg', 'Article position not created. Please try again');
+            return redirect()->back();
+        }
 
         return redirect(route('amd.index'), 201);
     }
