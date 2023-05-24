@@ -17,23 +17,26 @@
                 <th></th>
             </tr>
             </thead>
-            <tfoot>
-            <tr>
-               <td colspan='9'>
-                   <a class='btn btn-outline-warning' href='{{ route('amd.create') }}'>New SKU</a>
-               </td>
-            </tr>
-            </tfoot>
+            @can('create')
+                <tfoot>
+                <tr>
+                    <td colspan='9'>
+                        <a class='btn btn-outline-warning' href='{{ route('amd.create') }}'>New SKU</a>
+                    </td>
+                </tr>
+                </tfoot>
+            @endcan
             <tbody>
-            @foreach($articlesList as $article)
+            @forelse($articlesList as $article)
                 <tr class='text-center align-middle'>
                     <td>{{ $article->id }}</td>
-                    <td>{{ $article->season_id }}</td>
+                    <td>{{ $article->season->name }}</td>
                     <td>{{ $article->buying_article_sku }}</td>
-                    <td>{{ $article->brand_id }}</td>
-                    <td>{{ $article->supplier_article_form }}-{{ $article->supplier_article_number }} {{ $article->supplier_article_name }}</td>
-                    <td>{{ $article->color_id }}</td>
-                    <td>{{ $article->size_id }}</td>
+                    <td>{{ $article->brand->name }}</td>
+                    <td>{{ $article->supplier_article_form }}
+                        -{{ $article->supplier_article_number }} {{ $article->supplier_article_name }}</td>
+                    <td>{{ $article->color->name }}</td>
+                    <td>{{ $article->size->code }}</td>
                     <td>{{ $article->ean_gtin }}</td>
                     <td>
                         <a class='btn btn-outline-dark' href='{{ route('amd.show', $article) }}'>
@@ -41,7 +44,11 @@
                         </a>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan='9'>No article positions available</td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
     </section>

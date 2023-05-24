@@ -54,7 +54,9 @@
                 <th>
                     <small>Updated At</small>
                 </th>
-                <th></th>
+                @can('manage')
+                    <th></th>
+                @endcan
             </tr>
             </thead>
             <tfoot>
@@ -70,7 +72,7 @@
                     <small>{{ $article->id }}</small>
                 </td>
                 <td>
-                    <small>{{ $article->season_id }}</small>
+                    <small>{{ $article->season->name }}</small>
                 </td>
                 <td>
                     <small>{{ $article->buying_article_sku }}</small>
@@ -79,7 +81,7 @@
                     <small>{{ $article->buying_article_config }}</small>
                 </td>
                 <td>
-                    <small>{{ $article->brand_id }}</small>
+                    <small>{{ $article->brand->name }}</small>
                 </td>
                 <td>
                     <small>{{ $article->supplier_article_form }}</small>
@@ -91,22 +93,22 @@
                     <small>{{ $article->supplier_article_name }}</small>
                 </td>
                 <td>
-                    <small>{{ $article->color_id }}</small>
+                    <small>{{ $article->color->name }}</small>
                 </td>
                 <td>
-                    <small>{{ $article->size_id }}</small>
+                    <small>{{ $article->size->code }}</small>
                 </td>
                 <td>
                     <small>{{ $article->ean_gtin }}</small>
                 </td>
                 <td>
-                    <small>{{ $article->country_id }}</small>
+                    <small>{{ $article->country->name }}</small>
                 </td>
                 <td>
                     <small>{{ $article->hs_code }}</small>
                 </td>
                 <td>
-                    <small>{{ $article->user_id }}</small>
+                    <small>{{ $article->user->name }}</small>
                 </td>
                 <td>
                     <small>{{ $article->created_at }}</small>
@@ -114,16 +116,18 @@
                 <td>
                     <small>{{ $article->updated_at }}</small>
                 </td>
-                <td>
-                    <div class='btn-group-vertical'>
-                        <a class='btn btn-outline-secondary' href='#'>
-                            <small>{{ __('Edit') }}</small>
-                        </a>
-                        <a class='btn btn-outline-danger' href='#'>
-                            <small>{{ __('Delete') }}</small>
-                        </a>
-                    </div>
-                </td>
+                @can('manage')
+                    <td>
+                        <div class='btn-group-vertical'>
+                            <a class='btn btn-outline-secondary' href='#'>
+                                <small>{{ __('Edit') }}</small>
+                            </a>
+                            <a class='btn btn-outline-danger' href='#'>
+                                <small>{{ __('Delete') }}</small>
+                            </a>
+                        </div>
+                    </td>
+                @endcan
             </tr>
             </tbody>
         </table>

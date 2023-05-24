@@ -13,29 +13,29 @@ final class Article extends Model
 
     protected $guarded = false;
 
-    public function season(): HasOne
+    public function season(): BelongsTo
     {
-        return $this->hasOne(Season::class);
+        return $this->belongsTo(Season::class);
     }
 
-    public function brand(): HasOne
+    public function brand(): BelongsTo
     {
-        return $this->hasOne(Brand::class);
+        return $this->belongsTo(Brand::class);
     }
 
-    public function color(): HasOne
+    public function color(): BelongsTo
     {
-        return $this->hasOne(Color::class);
+        return $this->belongsTo(Color::class);
     }
 
-    public function size(): HasOne
+    public function size(): BelongsTo
     {
-        return $this->hasOne(Size::class);
+        return $this->belongsTo(Size::class);
     }
 
-    public function country(): HasOne
+    public function country(): belongsTo
     {
-        return $this->hasOne(Country::class);
+        return $this->belongsTo(Country::class);
     }
 
     public function user(): BelongsTo

@@ -12,7 +12,7 @@ Route::controller(HomeController::class)->group(function() {
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Article\Web'], function() {
-    Route::middleware('can:create,manage')->group(function() {
+    Route::middleware('auth')->group(function() {
         Route::get('/articles', 'IndexController')->name('amd.index');
         Route::get('/articles/{article}', 'ShowController')->name('amd.show');
     });
