@@ -117,10 +117,10 @@
                 <td>
                     <div class='btn-group-vertical'>
                         <a class='btn btn-outline-secondary' href='#'>
-                            {{ __('Edit') }}
+                            <small>{{ __('Edit') }}</small>
                         </a>
                         <a class='btn btn-outline-danger' href='#'>
-                            {{ __('Delete') }}
+                            <small>{{ __('Delete') }}</small>
                         </a>
                     </div>
                 </td>
