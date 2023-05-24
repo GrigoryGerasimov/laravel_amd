@@ -12,13 +12,7 @@ final class IndexController extends Controller
 {
     public function __invoke(): View
     {
-        $articlesList = Article::all()->map(function (Article $item) {
-            $item->season_id = Season::find($item->season_id)->name;
-            $item->brand_id = Brand::find($item->brand_id)->name;
-            $item->color_id = Color::find($item->color_id)->name;
-            $item->size_id = Size::find($item->size_id)->code;
-            return $item;
-        });
+        $articlesList = Article::all();
 
         return view('articles.index', compact('articlesList'));
     }
