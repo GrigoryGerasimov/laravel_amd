@@ -44,8 +44,8 @@ final class User extends Authenticatable
 
     public function hasRole(string $slug): bool
     {
-        $roleCollection = $this->roles()->where('slug', $slug)->first();
+        $roleCollection = $this->roles()->where('slug', $slug)->get();
 
-        return !empty($roleCollection) && $roleCollection->count() !== 0;
+        return $roleCollection->containsOneItem();
     }
 }
