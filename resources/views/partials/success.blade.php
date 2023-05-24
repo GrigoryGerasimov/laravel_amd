@@ -1,5 +1,5 @@
 @if(Session::has('success_msg'))
-    <div class="alert alert-success">
+    <x-common.alert type='success'>
         {{ Session::get('success_msg') }}
-    </div>
+    </x-common.alert>
 @endif

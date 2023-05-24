@@ -1,5 +1,5 @@
 @if(Session::has('error_msg'))
-    <div class="alert alert-danger">
+    <x-common.alert type='danger'>
         {{ Session::get('error_msg') }}
-    </div>
+    </x-common.alert>
 @endif
