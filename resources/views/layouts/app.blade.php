@@ -13,12 +13,14 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
+                @can('create', 'manage')
                 <a class="nav-link link-warning text-decoration-none me-5" href="{{ route('amd.index') }}">
                     {{ __('Articles List') }}
                 </a>
                 <a class="nav-link link-warning text-decoration-none me-5" href="{{ route('amd.create') }}">
                     {{ __('Create New SKU') }}
                 </a>
+                @endcan
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>

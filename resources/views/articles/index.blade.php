@@ -5,7 +5,7 @@
         @include('partials.success')
         <table class="table table-hover table-striped">
             <thead>
-            <tr>
+            <tr class='text-center'>
                 <th>ID</th>
                 <th>Season</th>
                 <th>SKU</th>
@@ -26,7 +26,7 @@
             </tfoot>
             <tbody>
             @foreach($articlesList as $article)
-                <tr class='align-middle'>
+                <tr class='text-center align-middle'>
                     <td>{{ $article->id }}</td>
                     <td>{{ $article->season_id }}</td>
                     <td>{{ $article->buying_article_sku }}</td>
@@ -36,7 +36,7 @@
                     <td>{{ $article->size_id }}</td>
                     <td>{{ $article->ean_gtin }}</td>
                     <td>
-                        <a class='btn btn-outline-dark' href='#'>
+                        <a class='btn btn-outline-dark' href='{{ route('amd.show', $article) }}'>
                             {{ __('Details') }}
                         </a>
                     </td>
