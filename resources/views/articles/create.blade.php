@@ -1,8 +1,13 @@
+@php $flashedFailureMessage = 'error_msg'; @endphp
+
 @extends('layouts.app')
 
 @section('content')
     <section class="offset-md-1 col-md-10">
-        @include('partials.error')
+        <x-common.alert type='danger' :message="$flashedFailureMessage">
+            {{ Session::get($flashedFailureMessage) }}
+        </x-common.alert>
+
         <form action='{{ route('amd.store') }}' method='POST' enctype='application/x-www-form-urlencoded'>
             @csrf
             <div class='form-group mt-3'>
@@ -141,9 +146,28 @@
             <input type='hidden' id='user_id' name='user_id' value='{{ Auth::user()->id }}'/>
 
             <div class='btn-group col-12 mt-5'>
-                <a class='btn btn-outline-secondary' href='{{ route('amd.index') }}'>Back</a>
-                <button type='reset' class='btn btn-outline-primary'>Reset</button>
-                <button type='submit' class='btn btn-outline-success'>Submit</button>
+                <x-common.button-link
+                    styling='outline'
+                    category='secondary'
+                    :route="route('amd.index')"
+                >
+                    {{ __('Back') }}
+                </x-common.button-link>
+                <x-common.button
+                    type='reset'
+                    styling='outline'
+                    category='primary'
+                >
+                    {{ __('Reset') }}
+                </x-common.button>
+                <x-common.button
+                    type='submit'
+                    styling='outline'
+                    category='success'
+                    shouldDisableOnErrors='true'
+                >
+                    {{ __('Submit') }}
+                </x-common.button>
             </div>
         </form>
     </section>
