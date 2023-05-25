@@ -1,6 +1,6 @@
 @php
     $flashedSuccessMessage = 'success_msg';
-    $columns = ['ID', 'Season', 'SKU', 'Brand', 'Article', 'Color', 'Size', 'EAN/GTIN', ''];
+    $columns = ['ID', 'Season', 'SKU', 'Brand', 'Article Code', 'Article Name', 'Color', 'Size', 'EAN/GTIN', ''];
 @endphp
 
 @extends('layouts.app')

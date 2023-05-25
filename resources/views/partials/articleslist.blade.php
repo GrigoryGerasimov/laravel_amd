@@ -6,7 +6,9 @@
         <td>{{ $article->brand->name }}</td>
         <td>{{ $article->supplier_article_form }}
             -{{ $article->supplier_article_number }}
-            {{ $article->supplier_article_name }}</td>
+            -{{ $article->color->code }}
+            </td>
+        <td>{{ $article->supplier_article_name }}</td>
         <td>{{ $article->color->name }}</td>
         <td>{{ $article->size->code }}</td>
         <td>{{ $article->ean_gtin }}</td>
