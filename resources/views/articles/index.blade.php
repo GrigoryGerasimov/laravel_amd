@@ -25,7 +25,7 @@
 
             <x-table.table-footer>
                 @can('create')
-                    <td colspan='9'>
+                    <td colspan='10'>
                         <x-common.button-link
                             styling='outline'
                             category='warning'
