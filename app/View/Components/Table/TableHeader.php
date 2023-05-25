@@ -9,8 +9,7 @@ use Illuminate\View\Component;
 final class TableHeader extends Component
 {
     public function __construct(
-        public array $columns,
-        public bool $isDetailed
+        public array $columns
     ) {}
 
     public function shouldRender(): bool

@@ -11,11 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 final class Table extends Component
 {
     public function __construct(
-        public string $addClasses,
-        public Collection $articlesList,
-        public Article $article,
-        public array $columns,
-        public bool $isDetailed = false
+        public string $addClasses
     ) {}
 
     public function render(): View|Closure|string
