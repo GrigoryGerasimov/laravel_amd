@@ -1,7 +1,7 @@
 <form action='{{ $route }}' method='{{ $method }}' enctype='{{ $enctype }}'>
     @csrf
 
-    @switch($method)
+    @switch($bladeMethod)
         @case('PUT')
             @method('put')
             @break;

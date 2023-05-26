@@ -10,6 +10,7 @@ class Form extends Component
 {
     public function __construct(
         public string $route,
+        public string $bladeMethod,
         public string $method = 'GET',
         public string $enctype = 'application/x-www-form-urlencoded'
     ) {}
