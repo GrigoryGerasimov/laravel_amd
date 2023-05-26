@@ -10,6 +10,13 @@ use Illuminate\Http\RedirectResponse;
 
 final class ArticleService
 {
+    private static function handleException(\Exception $e): RedirectResponse
+    {
+        Log::error($e->getMessage());
+        session()->flash('error_msg', 'Data not saved due to technical issue. Please try again');
+        return redirect()->back();
+    }
+
     public static function store(array $validatedRequest): Article|RedirectResponse
     {
         try {
@@ -26,12 +33,10 @@ final class ArticleService
             }
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollback();
 
-            Log::error($e->getMessage());
-            session()->flash('error_msg', 'Data not saved due to technical issue. Please try again');
-            return redirect()->back();
+            return self::handleException($exception);
         }
 
         return $article;
@@ -53,14 +58,37 @@ final class ArticleService
             }
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollback();
 
-            Log::error($e->getMessage());
-            session()->flash('error_msg', 'Data not updated due to technical issue. Please try again');
-            return redirect()->back();
+            return self::handleException($exception);
         }
 
         return $article;
+    }
+
+    public static function delete(Article $article): bool|null|RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+
+            try {
+                $deleted = $article->delete();
+
+                session()->flash('success_msg', 'Article position successfully deleted');
+            } catch (\Exception $e) {
+                Log::alert('Article position not deleted');
+
+                throw $e;
+            }
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollback();
+
+            return self::handleException($exception);
+        }
+
+        return $deleted;
     }
 }

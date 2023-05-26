@@ -25,7 +25,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Article\Web'], function() {
     Route::middleware('can:manage')->group(function() {
        Route::get('/articles/{article}/edit', 'EditController')->name('amd.edit');
        Route::patch('/articles/{article}', 'UpdateController')->name('amd.update');
-       Route::delete('/articles/{article}', 'DestroyController')->name('amd.destroy');
+       Route::get('/articles/{article}/delete', 'DestroyController')->name('amd.destroy');
     });
 });
 

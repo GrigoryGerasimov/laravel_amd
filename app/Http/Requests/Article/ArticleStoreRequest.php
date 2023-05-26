@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Article;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 class ArticleStoreRequest extends FormRequest
 {
+    protected $stopOnFirstFailer = true;
+
     public function authorize(): bool
     {
         return true;

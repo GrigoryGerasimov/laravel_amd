@@ -4,7 +4,7 @@
     </label>
     <input id='{{ $tAttr }}' name='{{ $tAttr }}'
            class='form-control @error($tAttr) is-invalid @enderror'
-           value='{{ $unit->$tAttr ?? old($tAttr) }}'/>
+           value='{{ old($tAttr) ?? $unit->$tAttr }}'/>
     @error($tAttr)
     <span class='text-danger'>{{ $message }}</span>
     @enderror
