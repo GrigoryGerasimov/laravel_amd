@@ -3,7 +3,7 @@
     $columns = [
         'ID', 'Created At', 'Updated At', 'SKU', 'SKU-Config', 'Article Form',
         'Article Number', 'Article Name', 'EAN/GTIN', 'HS Code', 'Size', 'Color',
-        'Brand', 'Season', 'Country of Origin', 'Added By'
+        'Brand', 'Season', 'Country of Origin', 'Last Change By'
         ];
     $tableAttr = [
         'id', 'created_at', 'updated_at', 'buying_article_sku', 'buying_article_config',

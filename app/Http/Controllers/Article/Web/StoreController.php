@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Article\Web;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ArticleStoreRequest;
+use App\Http\Requests\Article\ArticleStoreRequest;
 use App\Http\Services\ArticleService;
 use Illuminate\Http\RedirectResponse;
 
