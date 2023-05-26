@@ -8,7 +8,7 @@
             {{ Session::get($flashedFailureMessage) }}
         </x-common.alert>
 
-        <x-form.form route="{{ route('amd.update', $article) }}" method='PATCH'>
+        <x-form.form route="{{ route('amd.update', $article) }}" method='POST' bladeMethod='PATCH'>
 
             <x-form.form-select tAttr='season_id' :unit="$article" :list="$seasonsList"/>
 
