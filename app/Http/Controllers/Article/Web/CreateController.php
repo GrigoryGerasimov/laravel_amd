@@ -12,11 +12,11 @@ final class CreateController extends Controller
 {
     public function __invoke(): View
     {
-        $seasonsList = Season::all();
-        $brandsList = Brand::all();
-        $colorsList = Color::all();
-        $sizesList = Size::all();
-        $countriesList = Country::all();
+        $seasonsList = Season::all()->sort();
+        $brandsList = Brand::all()->sort();
+        $colorsList = Color::all()->sort();
+        $sizesList = Size::all()->sort();
+        $countriesList = Country::all()->sort();
 
         return view('articles.create', compact('seasonsList', 'brandsList', 'colorsList', 'sizesList', 'countriesList'));
     }

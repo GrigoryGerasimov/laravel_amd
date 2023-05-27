@@ -12,7 +12,7 @@ final class IndexController extends Controller
 {
     public function __invoke(): View
     {
-        $articlesList = Article::all();
+        $articlesList = Article::all()->sort();
 
         return view('articles.index', compact('articlesList'));
     }
