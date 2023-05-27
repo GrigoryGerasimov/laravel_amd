@@ -8,6 +8,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::controller('App\Http\Controllers\Auth\AuthController')->middleware('api')->prefix('auth')->group(function() {
+    Route::post('login', 'login');
+    Route::post('logout', 'logout');
+    Route::post('refresh', 'refresh');
+    Route::post('user', 'user');
+});
+
 Route::group(['namespace' => 'App\Http\Controllers\Article'], function() {
     Route::group(['namespace' => 'Api'], function() {
         Route::get('articles', 'IndexController')->name('api.amd.index');
