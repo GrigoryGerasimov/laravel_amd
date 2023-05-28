@@ -13,7 +13,7 @@ final class StoreController extends Controller
 {
     public function __invoke(ArticleWebStoreRequest $request): RedirectResponse
     {
-        ArticleWebService::store($request->validated());
+        ArticleWebService::store($request);
 
         return redirect(route('amd.index'), 201);
     }

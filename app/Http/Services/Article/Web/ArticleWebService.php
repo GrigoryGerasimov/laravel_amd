@@ -4,26 +4,31 @@ declare(strict_types=1);
 
 namespace App\Http\Services\Article\Web;
 
+use App\Http\Services\Service;
 use App\Models\Article;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\{DB, Log};
 
-final class ArticleWebService
+final class ArticleWebService extends Service
 {
-    private static function handleException(\Exception $e): RedirectResponse
+    protected static function handleException(\Exception $e): RedirectResponse
     {
         Log::error($e->getMessage());
+
         session()->flash('error_msg', 'Data not saved due to technical issue. Please try again');
+
         return redirect()->back();
     }
 
-    public static function store(array $validatedRequest): Article|RedirectResponse
+    public static function store(FormRequest $request): Model|RedirectResponse
     {
         try {
             DB::beginTransaction();
 
             try {
-                $article = Article::create($validatedRequest);
+                $article = Article::create($request->validated());
 
                 session()->flash('success_msg', 'Article position successfully created');
             } catch (\Exception $exception) {
@@ -42,13 +47,13 @@ final class ArticleWebService
         return $article;
     }
 
-    public static function update(Article $article, array $validatedRequest): Article|RedirectResponse
+    public static function update(Model $model, FormRequest $request): Model|RedirectResponse
     {
         try {
             DB::beginTransaction();
 
             try {
-                $article->update($validatedRequest);
+                $model->update($request->validated());
 
                 session()->flash('success_msg', 'Article position successfully updated');
             } catch (\Exception $exception) {
@@ -64,16 +69,16 @@ final class ArticleWebService
             return self::handleException($exception);
         }
 
-        return $article;
+        return $model;
     }
 
-    public static function delete(Article $article): bool|null|RedirectResponse
+    public static function delete(Model $model): bool|null|RedirectResponse
     {
         try {
             DB::beginTransaction();
 
             try {
-                $deleted = $article->delete();
+                $deleted = $model->delete();
 
                 session()->flash('success_msg', 'Article position successfully deleted');
             } catch (\Exception $exception) {

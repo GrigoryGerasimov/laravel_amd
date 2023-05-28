@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +15,7 @@ Route::controller('App\Http\Controllers\Auth\AuthController')->middleware('api')
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Article'], function() {
-    Route::group(['namespace' => 'Api'], function() {
+    Route::group(['namespace' => 'Api', 'middleware' => 'jwt.auth'], function() {
         Route::get('articles', 'IndexController')->name('api.amd.index');
         Route::post('articles', 'StoreController')->name('api.amd.store');
         Route::get('/articles/{article}', 'ShowController')->name('api.amd.show');

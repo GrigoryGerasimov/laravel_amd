@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace App\Http\Services\Article\Api;
 
+use App\Http\Services\Service;
 use App\Models\Article;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\{DB, Log, Validator};
 use Illuminate\Validation\Rule;
 
-final class ArticleApiService
+final class ArticleApiService extends Service
 {
-    private static function handleException(\Exception $e): void
+    protected static function handleException(\Exception $e): void
     {
         Log::error($e->getTraceAsString());
 
         echo $e->getMessage();
     }
 
-    public static function store(FormRequest $request): Article
+    public static function store(FormRequest $request): Model
     {
         try {
             DB::beginTransaction();
@@ -57,13 +59,13 @@ final class ArticleApiService
         }
     }
 
-    public static function update(Article $article, FormRequest $request): Article
+    public static function update(Model $model, FormRequest $request): Model
     {
         try {
             DB::beginTransaction();
 
             try {
-                $article->update(Validator::make($request->toArray(), [
+                $model->update(Validator::make($request->toArray(), [
                     'season_id' => 'required|integer',
                     'buying_article_sku' => [
                         'required', 'string', 'min:4', 'max:13',
@@ -93,7 +95,7 @@ final class ArticleApiService
 
             DB::commit();
 
-            return $article;
+            return $model;
         } catch (\Exception $exception) {
             DB::rollback();
 
@@ -102,13 +104,13 @@ final class ArticleApiService
         }
     }
 
-    public static function delete(Article $article): bool|null
+    public static function delete(Model $model): ?bool
     {
         try {
             DB::beginTransaction();
 
             try {
-                $deleted = $article->delete();
+                $deleted = $model->delete();
 
             } catch (\Exception $exception) {
                 Log::alert('Article position not deleted');
