@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    {{ __('You are logged in!') }}
+                    {{ __('You are logged in! A registration email has already been sent to you registered email address') }}
                 </div>
             </div>
         </div>
