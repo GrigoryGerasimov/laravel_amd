@@ -6,13 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Providers\RouteServiceProvider;
 use App\Models\{User, Role};
+use App\Jobs\SendRegistrationMailJob;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\{JsonResponse, RedirectResponse};
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\{DB, Hash, Log};
 
 final class RegisterController extends Controller
 {
@@ -30,6 +28,8 @@ final class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
+
+        SendRegistrationMailJob::dispatch($user);
 
         if ($response = $this->registered($request, $user)) {
             return $response;
