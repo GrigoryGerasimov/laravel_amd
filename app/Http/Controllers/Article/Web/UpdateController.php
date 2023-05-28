@@ -14,7 +14,7 @@ final class UpdateController extends Controller
 {
     public function __invoke(Article $article, ArticleWebUpdateRequest $request): RedirectResponse
     {
-        $article = ArticleWebService::update($article, $request->validated());
+        $article = ArticleWebService::update($article, $request);
 
         return redirect(route('amd.show', $article));
     }

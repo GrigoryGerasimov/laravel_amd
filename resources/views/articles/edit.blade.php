@@ -51,7 +51,6 @@
                     type='submit'
                     styling='outline'
                     category='success'
-                    shouldDisableOnErrors='true'
                 >
                     {{ __('Submit') }}
                 </x-common.button>
