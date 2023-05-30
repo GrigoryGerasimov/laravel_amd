@@ -14,7 +14,6 @@ final class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
-            RolePermissionSeeder::class,
             SeasonSeeder::class,
             SizeSeeder::class
         ]);
