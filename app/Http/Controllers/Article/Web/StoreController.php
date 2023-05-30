@@ -15,6 +15,6 @@ final class StoreController extends Controller
     {
         ArticleWebService::store($request);
 
-        return redirect(route('amd.index'), 201);
+        return redirect()->route('amd.index');
     }
 }
