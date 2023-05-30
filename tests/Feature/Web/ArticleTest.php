@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
 use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 use Tests\TestCase;
 
-class ArticleTest extends TestCase
+final class ArticleTest extends TestCase
 {
     use InteractsWithExceptionHandling, WithFaker, RefreshDatabase;
 
