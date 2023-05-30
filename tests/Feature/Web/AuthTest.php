@@ -5,8 +5,7 @@ namespace Tests\Feature\Web;
 use App\Jobs\SendRegistrationMailJob;
 use App\Models\User;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
 use Illuminate\Support\Facades\{Queue};
 use Tests\TestCase;
 
