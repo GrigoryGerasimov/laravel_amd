@@ -105,7 +105,7 @@ final class UserRoleCommandTest extends TestCase
         $this->seed(DatabaseSeeder::class);
         $role = Role::first();
 
-        $fakeId = 13;
+        $fakeId = 134;
 
         $this
             ->artisan(AssignRoleToUserCommand::class, [

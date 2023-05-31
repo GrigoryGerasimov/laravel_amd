@@ -13,14 +13,16 @@ use Illuminate\Validation\Rule;
 
 final class ArticleApiService extends Service
 {
-    protected static function handleException(\Exception $e): void
+    protected static function handleException(\Exception $e): array
     {
         Log::error($e->getTraceAsString());
 
-        echo $e->getMessage();
+        return [
+            'error' => $e->getMessage()
+        ];
     }
 
-    public static function store(FormRequest $request): Model
+    public static function store(FormRequest $request): Model|array
     {
         try {
             DB::beginTransaction();
@@ -54,12 +56,11 @@ final class ArticleApiService extends Service
         } catch (\Exception $exception) {
             DB::rollback();
 
-            self::handleException($exception);
-            exit(1);
+            return self::handleException($exception);
         }
     }
 
-    public static function update(Model $model, FormRequest $request): Model
+    public static function update(Model $model, FormRequest $request): Model|array
     {
         try {
             DB::beginTransaction();
@@ -99,8 +100,7 @@ final class ArticleApiService extends Service
         } catch (\Exception $exception) {
             DB::rollback();
 
-            self::handleException($exception);
-            exit(1);
+            return self::handleException($exception);
         }
     }
 
@@ -129,7 +129,7 @@ final class ArticleApiService extends Service
         }
     }
 
-    public static function restore(string $articleId): Article
+    public static function restore(string $articleId): Article|array
     {
         try {
             DB::beginTransaction();
@@ -151,8 +151,7 @@ final class ArticleApiService extends Service
         } catch (\Exception $exception) {
             DB::rollback();
 
-            self::handleException($exception);
-            exit(1);
+            return self::handleException($exception);
         }
     }
 }

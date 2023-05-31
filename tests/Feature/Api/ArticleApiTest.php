@@ -356,4 +356,48 @@ final class ArticleApiTest extends TestCase
                 ]
             ]);
     }
+
+    /** @test */
+    public function test_an_amd_api_article_resource_cannot_be_created_with_invalid_request_data(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $credentials = [
+            'email' => 'dummy.user@test.com',
+            'password' => 'Password@12345'
+        ];
+
+        $user = User::create([
+            'name' => 'Dummy User',
+            ...$credentials
+        ]);
+
+        $token = auth('api')->attempt($credentials);
+
+        $articleData = [
+            'season_id' => Season::first()->id,
+            'buying_article_sku' => '',
+            'buying_article_config' => '222test333_c',
+            'brand_id' => Brand::first()->id,
+            'supplier_article_form' => '',
+            'supplier_article_number' => 33333,
+            'supplier_article_name' => 'Test Position 2',
+            'color_id' => Color::first()->id,
+            'size_id' => Size::first()->id,
+            'ean_gtin' => '',
+            'country_id' => Country::first()->id,
+            'hs_code' => '12345',
+            'user_id' => User::first()->id
+        ];
+
+        $this
+            ->actingAs($user)
+            ->withHeader('Authorization', "Bearer $token")
+            ->post('/api/articles', $articleData)
+            ->assertStatus(422)
+            ->assertUnprocessable()
+            ->assertJsonStructure(['error']);
+
+        $this->assertDatabaseCount('articles', 0);
+    }
 }
