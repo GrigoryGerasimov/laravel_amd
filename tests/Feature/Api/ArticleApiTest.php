@@ -400,4 +400,248 @@ final class ArticleApiTest extends TestCase
 
         $this->assertDatabaseCount('articles', 0);
     }
+
+    /** @test */
+    public function test_a_jwt_authenticated_user_can_update_an_amd_api_article_resource(): void
+    {
+        $this
+            ->withoutExceptionHandling()
+            ->withoutDeprecationHandling();
+
+        $this->seed(DatabaseSeeder::class);
+
+        $credentials = [
+            'email' => 'john.doe@test.com',
+            'password' => 'Password@12345'
+        ];
+
+        $user = User::create([
+            'name' => 'John Doe',
+            ...$credentials
+        ]);
+
+        Article::create([
+            'season_id' => Season::first()->id,
+            'buying_article_sku' => 'test111test',
+            'buying_article_config' => 'test111_conf',
+            'brand_id' => Brand::first()->id,
+            'supplier_article_form' => '0009',
+            'supplier_article_number' => '11999',
+            'supplier_article_name' => 'Test Position for Updating',
+            'color_id' => Color::first()->id,
+            'size_id' => Size::first()->id,
+            'ean_gtin' => 'efgh12345hgfe',
+            'country_id' => Country::first()->id,
+            'hs_code' => '12345',
+            'user_id' => User::first()->id
+        ]);
+
+        $this
+            ->assertDatabaseCount('articles', 1)
+            ->assertDatabaseHas('articles', ['buying_article_sku' => 'test111test']);
+
+        $this
+            ->assertDatabaseCount('users', 1)
+            ->assertDatabaseHas('users', ['name' => 'John Doe', 'email' => 'john.doe@test.com']);
+
+        $token = auth('api')->attempt($credentials);
+
+        $updatedArticleData = [
+            'season_id' => Season::first()->id,
+            'buying_article_sku' => 'test111test',
+            'buying_article_config' => 'test111_upd',
+            'brand_id' => Brand::first()->id,
+            'supplier_article_form' => 'upd9',
+            'supplier_article_number' => '11999',
+            'supplier_article_name' => 'UPDATED Test Position',
+            'color_id' => Color::first()->id,
+            'size_id' => Size::first()->id,
+            'ean_gtin' => 'efgh12345hgfe',
+            'country_id' => Country::first()->id,
+            'hs_code' => '12345',
+            'user_id' => User::first()->id
+        ];
+
+        $this
+            ->actingAs($user)
+            ->withHeader('Authorization', "Bearer $token")
+            ->patch('/api/articles/' . Article::first()->id, $updatedArticleData)
+            ->assertStatus(200)
+            ->assertSuccessful()
+            ->assertJsonFragment([
+                'buyingArticleConfig' => 'test111_upd',
+                'supplierArticleForm' => 'upd9',
+                'supplierArticleName' => 'UPDATED Test Position'
+            ]);
+    }
+
+    /** @test */
+    public function test_an_amd_api_article_resource_cannot_be_updated_with_invalid_request_data(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $credentials = [
+            'email' => 'jane.doe@test.com',
+            'password' => 'Password@098765'
+        ];
+
+        $user = User::create([
+            'name' => 'Jane Doe',
+            ...$credentials
+        ]);
+
+        $token = auth('api')->attempt($credentials);
+
+        Article::create([
+            'season_id' => Season::first()->id,
+            'buying_article_sku' => 'test_sku',
+            'buying_article_config' => '222test333_c',
+            'brand_id' => Brand::first()->id,
+            'supplier_article_form' => '0000',
+            'supplier_article_number' => '33333',
+            'supplier_article_name' => 'Test Position',
+            'color_id' => Color::first()->id,
+            'size_id' => Size::first()->id,
+            'ean_gtin' => 'test_EAN_111',
+            'country_id' => Country::first()->id,
+            'hs_code' => '12345',
+            'user_id' => User::first()->id
+        ]);
+
+        $this->assertDatabaseCount('articles', 1);
+
+        $updatedArticleData = [
+            'season_id' => Season::first()->id,
+            'buying_article_sku' => 'test111test',
+            'buying_article_config' => 'abcdefghijklmnop',
+            'brand_id' => Brand::first()->id,
+            'supplier_article_form' => 'upd9',
+            'supplier_article_number' => '11999',
+            'supplier_article_name' => 'UPDATED Test Position',
+            'color_id' => Color::first()->id,
+            'size_id' => Size::first()->id,
+            'ean_gtin' => '',
+            'country_id' => Country::first()->id,
+            'hs_code' => '',
+            'user_id' => User::first()->id
+        ];
+
+        $this
+            ->actingAs($user)
+            ->withHeader('Authorization', "Bearer $token")
+            ->patch('/api/articles/'.Article::first()->id, $updatedArticleData)
+            ->assertStatus(422)
+            ->assertUnprocessable()
+            ->assertJsonStructure(['error'])
+            ->assertJsonMissing([
+                'supplierArticleForm' => 'upd9',
+                'supplierArticleNumber' => '11999',
+                'supplierArticleName' => 'UPDATED Test Position'
+            ]);
+
+        $this->assertDatabaseHas('articles', [
+            'buying_article_sku' => 'test_sku',
+            'supplier_article_name' => 'Test Position'
+        ]);
+    }
+
+    /** @test */
+    public function test_a_jwt_authenticated_user_can_delete_an_amd_api_article_resource(): void
+    {
+        $this
+            ->withoutExceptionHandling()
+            ->withoutDeprecationHandling();
+
+        $this->seed(DatabaseSeeder::class);
+
+        $credentials = [
+            'email' => 'john.doe@test.com',
+            'password' => 'Password@12345'
+        ];
+
+        $user = User::create([
+            'name' => 'John Doe',
+            ...$credentials
+        ]);
+
+        $article = Article::create([
+            'season_id' => Season::first()->id,
+            'buying_article_sku' => 'test111test',
+            'buying_article_config' => 'test111_conf',
+            'brand_id' => Brand::first()->id,
+            'supplier_article_form' => '0009',
+            'supplier_article_number' => '11999',
+            'supplier_article_name' => 'Test Position for Deleting',
+            'color_id' => Color::first()->id,
+            'size_id' => Size::first()->id,
+            'ean_gtin' => 'efgh12345hgfe',
+            'country_id' => Country::first()->id,
+            'hs_code' => '12345',
+            'user_id' => User::first()->id
+        ]);
+
+        $this
+            ->assertDatabaseCount('articles', 1)
+            ->assertDatabaseHas('articles', ['buying_article_sku' => 'test111test']);
+
+        $this
+            ->assertDatabaseCount('users', 1)
+            ->assertDatabaseHas('users', ['name' => 'John Doe', 'email' => 'john.doe@test.com']);
+
+        $token = auth('api')->attempt($credentials);
+
+        $this
+            ->actingAs($user)
+            ->withHeader('Authorization', "Bearer $token")
+            ->delete('/api/articles/'.$article->id)
+            ->assertStatus(200)
+            ->assertSuccessful()
+            ->assertExactJson([
+                'deleted' => true
+            ]);
+
+        $this->assertSoftDeleted('articles', ['id' => $article->id]);
+    }
+
+    /** @test */
+    public function test_a_jwt_authenticated_user_can_restore_an_deleted_amd_api_article_resource(): void
+    {
+        $this
+            ->withoutExceptionHandling()
+            ->withoutDeprecationHandling();
+
+        $this->test_a_jwt_authenticated_user_can_delete_an_amd_api_article_resource();
+
+        $this->assertSoftDeleted('articles');
+        $this->assertDatabaseHas('users', ['name' => 'John Doe']);
+
+        $credentials = [
+            'email' => 'john.doe@test.com',
+            'password' => 'Password@12345'
+        ];
+
+        $token = auth('api')->attempt($credentials);
+
+        $this
+            ->actingAs(User::first())
+            ->withHeader('Authorization', "Bearer $token")
+            ->get('/api/articles/'.Article::withTrashed()->first()->id.'/restore')
+            ->assertStatus(200)
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'buyingArticleSku' => 'test111test',
+                    'buyingArticleConfig' => 'test111_conf',
+                    'supplierArticleName' => 'Test Position for Deleting',
+                    'eanGtin' => 'efgh12345hgfe',
+                ]
+            ]);
+
+        $this->assertNotSoftDeleted('articles', [
+            'buying_article_sku' => 'test111test',
+            'buying_article_config' => 'test111_conf',
+            'supplier_article_name' => 'Test Position for Deleting',
+            'ean_gtin' => 'efgh12345hgfe'
+        ]);
+    }
 }
